@@ -5,10 +5,45 @@ import java.util.NoSuchElementException;
         int next();       //return the current value in the sequence and advances to the next element.
         int length();     //returns the total length of the sequence
         void reset();     //start over from the start of the sequence
-    }
-    public static Sequence(IntegerSequence s){
         while (s.hasNext()) {
             int d = s.next();
         }
     }
-    public class Range implements
+
+    public class Range implements IntegerSequence {
+        private int start, end, current;
+        public Range(int start,  int end){
+            int current = start;
+            int x = 0;
+            while (current < end) {
+                x++;
+                current++;
+            }
+        }
+        public void reset(){
+            current = start;
+        }
+        public int length(){
+            return end - start;
+        }
+        public boolean hasNext(){
+            if (current < end && current > start) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        public int next() {
+            int hold = current;
+            current++;
+            return hold;
+        }
+        
+        IntegerSequence r = new Range(10,20);
+        while(r.hasNext()){
+            System.out.print(r.next());
+            if( r.hasNext() )
+                System.out.print( ", " );
+        }
+        System.out.println();
+    }
