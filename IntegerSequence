@@ -1,63 +1,46 @@
 import java.util.NoSuchElementException;
 
-    public interface IntegerSequence{
-        boolean hasNext();//does the sequence have more elements?
-        int next();       //return the current value in the sequence and advances to the next element.
-        int length();     //returns the total length of the sequence
-        void reset();     //start over from the start of the sequence
-        while (s.hasNext()) {
-            int d = s.next();
+public interface IntegerSequence{
+    boolean hasNext();//does the sequence have more elements?
+    int next();       //return the current value in the sequence and advances to the next element.
+    int length();     //returns the total length of the sequence
+    void reset();     //start over from the start of the sequence
+}
+
+public class Range implements IntegerSequence {
+    private int start, end, current;
+
+    public Range(int start, int end) {
+        this.start = start;
+        this.end = end;
+        this.current = start;
+    }
+
+    public void reset() {
+        this.current = start;
+    }
+
+    public int length() {
+        if (this.end >= this.start) {
+            return this.end - this.start + 1;
+        } else {
+            return 0;
         }
     }
 
-    public class Range implements IntegerSequence {
-        private int start, end, current;
-        public Range(int start,  int end){
-            int current = start;
-            int x = 0;
-            while (current < end) {
-                x++;
-                current++;
-            }
-        }
-        public void reset(){
-            current = start;
-        }
-        public int length(){
-            return end - start;
-        }
-        public boolean hasNext(){
-            if (current < end && current > start) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        public int next() {
-            int hold = current;
-            current++;
-            return hold;
-        }
-
-        IntegerSequence r = new Range(10,20);
-        while(r.hasNext()){
-            System.out.print(r.next());
-            if( r.hasNext() )
-                System.out.print( ", " );
-        }
-        System.out.println();
+    public boolean hasNext() {
+        return this.current <= this.end;
     }
 
-public class ArraySequence implements IntegerSequence{
-    private int currentIndex;
-    private int []data;
 
-    public ArraySequence(int [] other){
-        System.out.println("ArraySequence(array):");
-        while(as.hasNext()){
-            System.out.print(as.next()+", ");
+    public int next() {
+        if (this.current > this.end) {
+            System.out.println("NoSuchElementException");
         }
+        return this.current++;
     }
-    int[]nums = {1,3,5,0,-1,3,9};
-    IntegerSequence as = new ArraySequence(nums);
+
+    public String toString() {
+        return "[" + this.start + ":" + this.end + "]";
+    }
 }
